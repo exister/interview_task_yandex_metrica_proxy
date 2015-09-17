@@ -52,10 +52,11 @@ class Fetcher(object):
             if i > 0 and i % 10 == 0:
                 self.store_stats(stats)
                 stats = []
+        self.store_stats(stats)
 
     def store_stats(self, stats):
         print 'store_stats'
-        data = ((c['totals']['visits'], c['id']) for c in stats['counters'])
+        data = ((c['totals']['visits'], c['id']) for c in stats)
 
         cur = self.db.cursor()
         cur.executemany("UPDATE counters SET visits = ? WHERE id = ?", data)
